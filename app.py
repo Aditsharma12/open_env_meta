@@ -4,6 +4,7 @@ from fastapi.responses import HTMLResponse
 from env.environment import CustomerSupportEnv
 from env.models import Action
 from env.tasks import TASKS
+from fastapi import Request
 
 app = FastAPI(title="Customer Support OpenEnv", version="1.0.0")
 
@@ -39,8 +40,17 @@ def health():
     return {"status": "ok"}
 
 
-@app.get("/reset")
-def reset(task_id: str = None, session_id: str = "default"):
+
+@app.api_route("/reset", methods=["GET", "POST"])
+async def reset(request: Request, task_id: str = None, session_id: str = "default"):
+    if request.method == "POST":
+        try:
+            body = await request.json()
+            task_id = body.get("task_id", task_id)
+            session_id = body.get("session_id", session_id)
+        except Exception:
+            pass
+            
     env = get_env(session_id)
     try:
         obs = env.reset(task_id=task_id)
