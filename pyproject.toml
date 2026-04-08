@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "customer-support-openenv"
+version = "1.0.0"
+description = "Customer Support RL Environment"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pydantic>=2.0",
+    "openai>=1.0",
+    "python-dotenv",
+    "fastapi",
+    "uvicorn"
+]
+
+[tool.setuptools.packages.find]
+include = ["env*", "baseline*"]
+
+[project.urls]
+"Homepage" = "https://github.com/Aditsharma12/open_env_meta"
