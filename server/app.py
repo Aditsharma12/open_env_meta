@@ -1,4 +1,9 @@
 import os
+import sys
+
+# Ensure root directory is in path so we can import 'env'
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from env.environment import CustomerSupportEnv
