@@ -104,7 +104,10 @@ def list_tasks():
     ]
 
 
-if __name__ == "__main__":
+def start():
     import uvicorn
     port = int(os.getenv("PORT", 7860))
-    uvicorn.run("app:app", host="0.0.0.0", port=port)
+    uvicorn.run("server.app:app", host="0.0.0.0", port=port)
+
+if __name__ == "__main__":
+    start()
