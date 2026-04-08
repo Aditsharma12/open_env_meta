@@ -1,3 +1,13 @@
+---
+title: Customer Support OpenEnv
+emoji: 🎧
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_file: app.py
+pinned: false
+---
+
 # Customer Support OpenEnv
 
 > A real-world reinforcement learning environment where an AI agent learns to handle customer support tickets — classify issues, craft replies, escalate when needed, and resolve tickets.
