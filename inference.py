@@ -63,18 +63,26 @@ def run_llm(task_id):
     task = env.current_task
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
     taken = []
+    rewards = []
 
-    print(f"[START] task={task_id}", flush=True)
+    print(f"[START] task={task_id} env=customer-support model={MODEL_NAME}", flush=True)
     for i in range(task["max_steps"]):
         action = call_llm(obs, messages)
         obs, reward, done, info = env.step(action)
         taken.append(action)
-        print(f"[STEP] step={i+1} reward={reward}", flush=True)
+        rewards.append(reward)
+        
+        action_str = action.model_dump_json() if hasattr(action, 'model_dump_json') else json.dumps(action.__dict__)
+        action_str = action_str.replace(" ", "")
+
+        print(f"[STEP] step={i+1} action={action_str} reward={reward:.2f} done={str(done).lower()} error=null", flush=True)
         if done:
             break
 
     score = grade_task(task, taken)
-    print(f"[END] task={task_id} score={score} steps={len(taken)}", flush=True)
+    rewards_str = ",".join(f"{r:.2f}" for r in rewards)
+    success = score >= 0.5
+    print(f"[END] success={str(success).lower()} steps={len(taken)} score={score:.3f} rewards={rewards_str}", flush=True)
     return score
 
 def main():
