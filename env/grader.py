@@ -6,8 +6,8 @@ def grade_easy(task, actions: List[Action]) -> float:
     expected = task["expected"]["category"].lower()
     for a in actions:
         if a.action_type == "classify":
-            return 1.0 if (a.category or "").lower() == expected else 0.0
-    return 0.0
+            return 0.999 if (a.category or "").lower() == expected else 0.001
+    return 0.001
 
 
 def grade_medium(task, actions: List[Action]) -> float:
@@ -27,7 +27,7 @@ def grade_medium(task, actions: List[Action]) -> float:
             score += min(0.6, hits * 0.15)
             break
 
-    return round(min(1.0, score), 4)
+    return round(max(0.001, min(0.999, score)), 4)
 
 
 def grade_hard(task, actions: List[Action]) -> float:
@@ -57,7 +57,7 @@ def grade_hard(task, actions: List[Action]) -> float:
     if any(a.action_type == "close" for a in actions):
         score += 0.3
 
-    return round(max(0.0, min(1.0, score)), 4)
+    return round(max(0.001, min(0.999, score)), 4)
 
 
 GRADERS = {
