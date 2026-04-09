@@ -75,12 +75,12 @@ def run_llm(task_id):
         action_str = action.model_dump_json() if hasattr(action, 'model_dump_json') else json.dumps(action.__dict__)
         action_str = action_str.replace(" ", "")
 
-        print(f"[STEP] step={i+1} action={action_str} reward={reward:.2f} done={str(done).lower()} error=null", flush=True)
+        print(f"[STEP] step={i+1} action={action_str} reward={reward.score:.2f} done={str(done).lower()} error=null", flush=True)
         if done:
             break
 
     score = grade_task(task, taken)
-    rewards_str = ",".join(f"{r:.2f}" for r in rewards)
+    rewards_str = ",".join(f"{r.score:.2f}" for r in rewards)
     success = score >= 0.5
     print(f"[END] success={str(success).lower()} steps={len(taken)} score={score:.3f} rewards={rewards_str}", flush=True)
     return score
