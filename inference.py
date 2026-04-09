@@ -64,17 +64,17 @@ def run_llm(task_id):
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
     taken = []
 
-    print("START")
+    print(f"[START] task={task_id}", flush=True)
     for i in range(task["max_steps"]):
         action = call_llm(obs, messages)
         obs, reward, done, info = env.step(action)
         taken.append(action)
-        print("STEP")
+        print(f"[STEP] step={i+1} reward={reward}", flush=True)
         if done:
             break
 
     score = grade_task(task, taken)
-    print("END")
+    print(f"[END] task={task_id} score={score} steps={len(taken)}", flush=True)
     return score
 
 def main():
