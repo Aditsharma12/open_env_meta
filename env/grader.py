@@ -69,4 +69,6 @@ GRADERS = {
 
 def grade_task(task, actions: List[Action]) -> float:
     grader = GRADERS.get(task.get("id", "easy"), grade_easy)
-    return grader(task, actions)
+    raw_score = grader(task, actions)
+    epsilon = 1e-3
+    return float(max(epsilon, min(raw_score, 1 - epsilon)))
