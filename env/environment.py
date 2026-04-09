@@ -49,7 +49,7 @@ class CustomerSupportEnv:
         max_steps = self.current_task.get("max_steps", 10)
         if self.step_count >= max_steps and not self.done:
             self.done = True
-            new_score = max(0.0, reward.score - 0.05)
+            new_score = max(0.001, reward.score - 0.05)
             reward = Reward(
                 score=new_score,
                 feedback=reward.feedback + " | time limit hit, -0.05",
@@ -117,7 +117,7 @@ class CustomerSupportEnv:
             score += bonus
             breakdown["close_bonus"] = bonus
 
-        score = round(max(0.0, min(1.0, score)), 4)
+        score = round(max(0.001, min(0.999, score)), 4)
         feedback = self._make_feedback(action, breakdown, correct)
 
         return Reward(score=score, feedback=feedback, breakdown=breakdown)
